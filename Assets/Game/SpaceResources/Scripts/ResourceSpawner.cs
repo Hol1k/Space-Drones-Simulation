@@ -14,7 +14,8 @@ namespace Game.SpaceResources.Scripts
         [Space]
         [Tooltip("resource per minute")]
         [SerializeField] private float spawnFrequency;
-        private float _currentCooldown;
+        [SerializeField] [Min(0)] private int maxResourcesCount;
+        private float _currentSpawnCooldown;
         
         [SerializeField] private float ySpawnOffset;
 
@@ -33,9 +34,12 @@ namespace Game.SpaceResources.Scripts
             if (spawnFrequency <= 0)
                 return;
             
-            if (_currentCooldown > 0)
+            if (transform.childCount >= maxResourcesCount)
+                return;
+            
+            if (_currentSpawnCooldown > 0)
             {
-                _currentCooldown -= Time.deltaTime;
+                _currentSpawnCooldown -= Time.deltaTime;
                 return;
             }
             
@@ -46,7 +50,7 @@ namespace Game.SpaceResources.Scripts
             
             Instantiate(resourcePrefab, spawnPosition, Random.rotation, transform);
             
-            _currentCooldown = 60f / spawnFrequency;
+            _currentSpawnCooldown = 60f / spawnFrequency;
         }
     }
 }
