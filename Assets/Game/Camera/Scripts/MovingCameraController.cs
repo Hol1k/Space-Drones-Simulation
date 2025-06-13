@@ -7,7 +7,6 @@ namespace Game.Camera.Scripts
     {
         [SerializeField] private UnityEngine.Camera mainCamera;
         private CinemachineVirtualCamera _virtualCamera;
-        private CinemachineConfiner _cinemachineConfiner;
         
         [SerializeField] private Collider cameraBoundsCollider;
         

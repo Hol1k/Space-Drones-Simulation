@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Resource
   - CameraMovingPlane
+  - Obstacle
   layers:
   - Default
   - TransparentFX

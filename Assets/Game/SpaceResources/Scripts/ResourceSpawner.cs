@@ -1,3 +1,4 @@
+using System.Linq;
 using Unity.AI.Navigation;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -11,13 +12,15 @@ namespace Game.SpaceResources.Scripts
         
         [SerializeField] private GameObject resourcePrefab;
         
+        [SerializeField] private float droneColliderRadius = 0.5f;
+        
         [Space]
         [Tooltip("resource per minute")]
-        [SerializeField] private float spawnFrequency;
-        [SerializeField] [Min(0)] private int maxResourcesCount;
+        [SerializeField] private float spawnFrequency = 40f;
+        [SerializeField] [Min(0)] private int maxResourcesCount = 100;
         private float _currentSpawnCooldown;
         
-        [SerializeField] private float ySpawnOffset;
+        [SerializeField] private float ySpawnOffset = -0.5f;
 
         private void Awake()
         {
@@ -43,14 +46,31 @@ namespace Game.SpaceResources.Scripts
                 return;
             }
             
-            Vector3 spawnPosition = playingSurface.transform.position;
-            spawnPosition.x += Random.Range(_playingBounds.min.x, _playingBounds.max.x);
-            spawnPosition.z += Random.Range(_playingBounds.min.z, _playingBounds.max.z);
-            spawnPosition.y += ySpawnOffset;
-            
-            Instantiate(resourcePrefab, spawnPosition, Random.rotation, transform);
+            Vector3 spawnPosition = RollSpawnPositionOnPlayingSurface();
+
+            Instantiate(resourcePrefab, playingSurface.transform.position + spawnPosition, Random.rotation, transform);
             
             _currentSpawnCooldown = 60f / spawnFrequency;
+        }
+
+        private Vector3 RollSpawnPositionOnPlayingSurface()
+        {
+            Vector3 spawnPosition;
+
+            bool isResourceInObstacle;
+            do
+            {
+                spawnPosition = Vector3.zero;
+                
+                spawnPosition.x += Random.Range(_playingBounds.min.x, _playingBounds.max.x);
+                spawnPosition.z += Random.Range(_playingBounds.min.z, _playingBounds.max.z);
+
+                var colliders = Physics.OverlapSphere(spawnPosition, droneColliderRadius);
+                isResourceInObstacle = colliders.Any(colliderHit => colliderHit.gameObject.CompareTag("Obstacle"));
+            } while (isResourceInObstacle);
+            
+            spawnPosition.y += ySpawnOffset;
+            return spawnPosition;
         }
     }
 }
