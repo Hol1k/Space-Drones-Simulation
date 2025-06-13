@@ -6,6 +6,8 @@ namespace Game.Drones.Scripts
         FollowingResource,
         LootingResource,
         FollowingBase,
-        DroppingResource
+        DroppingResource,
+        Spawning,
+        Despawning
     }
 }
