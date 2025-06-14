@@ -175,6 +175,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resourcesParent: {fileID: 0}
   droneFractionBase: {fileID: 0}
+  droneMeshRenderer: {fileID: 472162939353391641}
   distanceForLootingOrDropping: 1
   lootingOrDroppingDuration: 2
   animator: {fileID: 4979592858119430210}

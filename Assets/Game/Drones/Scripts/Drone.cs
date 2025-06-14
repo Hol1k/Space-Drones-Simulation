@@ -13,9 +13,11 @@ namespace Game.Drones.Scripts
         
         private NavMeshAgent _navMeshAgent;
         
-        [SerializeField] private DroneState _droneState;
+        private DroneState _droneState;
         
         public Transform droneFractionBase;
+        
+        public MeshRenderer droneMeshRenderer;
         
         [Space]
         [SerializeField] private float distanceForLootingOrDropping;
@@ -27,7 +29,7 @@ namespace Game.Drones.Scripts
         
         private bool _itHasResource;
         
-        [SerializeField] private bool _isDroneActive;
+        private bool _isDroneActive;
         
         [Space]
         [SerializeField] private Animator animator;

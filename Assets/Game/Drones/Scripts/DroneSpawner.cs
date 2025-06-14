@@ -60,7 +60,7 @@ namespace Game.Drones.Scripts
             
             for (int i = 0; i < count; i++)
             {
-                var drone = _droneFactory.Create(transform, resourcesParent);
+                var drone = _droneFactory.Create(transform, resourcesParent, GetComponent<MeshRenderer>().material);
                 drones[i] = drone;
             }
             

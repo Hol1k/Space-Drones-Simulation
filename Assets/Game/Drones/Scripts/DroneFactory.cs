@@ -7,7 +7,7 @@ namespace Game.Drones.Scripts
     {
         public class Factory : PlaceholderFactory<Drone>
         {
-            public Drone Create(Transform fractionBaseTransform, GameObject resourcesParentObject)
+            public Drone Create(Transform fractionBaseTransform, GameObject resourcesParentObject, Material droneMaterial)
             {
                 var drone = base.Create();
                 
@@ -15,6 +15,7 @@ namespace Game.Drones.Scripts
                 drone.resourcesParent = resourcesParentObject;
                 drone.transform.SetParent(fractionBaseTransform);
                 drone.transform.localPosition = Vector3.zero;
+                drone.droneMeshRenderer.material = droneMaterial;
                 
                 return drone;
             }
