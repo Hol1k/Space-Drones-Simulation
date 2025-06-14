@@ -1,18 +1,27 @@
 using UnityEngine;
+using Zenject;
 
 namespace Game.Drones.Scripts
 {
     public class DroneSpawner : MonoBehaviour
     {
-        [SerializeField] private GameObject dronePrefab;
+        private Drone.Factory _droneFactory;
         
+        [SerializeField] private GameObject dronePrefab;
+
         [Range(0, 10)] public int droneCountRequest;
         private int _currentDroneCount = 0;
 
         [SerializeField] [Range(0, 10)] private int maxDronesCount;
-        private DroneController[] _dronesArray;
+        private Drone[] _dronesArray;
 
         [SerializeField] private GameObject resourcesParent;
+        
+        [Inject]
+        private void Construct(Drone.Factory droneFactory)
+        {
+            _droneFactory = droneFactory;
+        }
 
         private void Start()
         {
@@ -45,16 +54,13 @@ namespace Game.Drones.Scripts
             _dronesArray[--_currentDroneCount].DespawnRequest();
         }
 
-        private DroneController[] CreateDroneObjects(int count = 10)
+        private Drone[] CreateDroneObjects(int count = 10)
         {
-            DroneController[] drones = new DroneController[count];
+            Drone[] drones = new Drone[count];
             
             for (int i = 0; i < count; i++)
             {
-                var DroneObject = Instantiate(dronePrefab, transform);
-                var drone = DroneObject.GetComponent<DroneController>();
-                drone.droneFractionBase = transform;
-                drone.resourcesParent = resourcesParent;
+                var drone = _droneFactory.Create(transform, resourcesParent);
                 drones[i] = drone;
             }
             
