@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Game.Drones.Scripts;
+using Game.UI.Scripts;
 using UnityEngine;
 using Zenject;
 
@@ -17,6 +18,8 @@ namespace Game.Scripts
             
             Container.BindFactory<Drone, Drone.Factory>()
                 .FromComponentInNewPrefab(_dronePrefab);
+
+            Container.BindInterfacesAndSelfTo<ScoreCounter>().FromComponentInHierarchy().AsSingle();
         }
     }
 }

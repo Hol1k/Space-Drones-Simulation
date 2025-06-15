@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Game.UI.Scripts;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
@@ -16,6 +17,8 @@ namespace Game.Drones.Scripts
         private DroneState _droneState;
         
         public Transform droneFractionBase;
+        public DroneTeam team;
+        private ScoreCounter _scoreCounter;
         
         public MeshRenderer droneMeshRenderer;
         
@@ -40,9 +43,10 @@ namespace Game.Drones.Scripts
         [SerializeField] private float spawnOrDespawnDuration = 0.5f;
 
         [Inject]
-        private void Construct(List<Transform> occupiedResources)
+        private void Construct(List<Transform> occupiedResources, ScoreCounter scoreCounter)
         {
             _occupiedResources = occupiedResources;
+            _scoreCounter = scoreCounter;
         }
 
         private void Awake()
@@ -230,6 +234,7 @@ namespace Game.Drones.Scripts
             {
                 _lootOrDropProgress = 0f;
                 _itHasResource = false;
+                _scoreCounter.AddScore(team);
                 
                 _droneState = _despawnRequested ? DroneState.Despawning : DroneState.ChoosingResource;
             }

@@ -1,13 +1,15 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace Game.Drones.Scripts
 {
     public class DroneSpawner : MonoBehaviour
     {
-        private Drone.Factory _droneFactory;
+        public DroneTeam team;
         
         [SerializeField] private GameObject dronePrefab;
+        private Drone.Factory _droneFactory;
 
         [Range(0, 10)] public int droneCountRequest;
         private int _currentDroneCount = 0;
@@ -60,7 +62,7 @@ namespace Game.Drones.Scripts
             
             for (int i = 0; i < count; i++)
             {
-                var drone = _droneFactory.Create(transform, resourcesParent, GetComponent<MeshRenderer>().material);
+                var drone = _droneFactory.Create(transform, team, resourcesParent, GetComponent<MeshRenderer>().material);
                 drones[i] = drone;
             }
             
