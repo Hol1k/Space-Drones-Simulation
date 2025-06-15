@@ -1,3 +1,5 @@
+using System;
+using Game.UI.Scripts;
 using UnityEngine;
 using Zenject;
 
@@ -10,18 +12,24 @@ namespace Game.Drones.Scripts
         [SerializeField] private GameObject dronePrefab;
         private Drone.Factory _droneFactory;
 
-        [Range(0, 10)] public int droneCountRequest;
+        UIInputController _uiInputController;
         private int _currentDroneCount = 0;
 
-        [SerializeField] [Range(0, 10)] private int maxDronesCount;
+        [SerializeField] [Range(0, 5)] private int maxDronesCount;
         private Drone[] _dronesArray;
 
         [SerializeField] private GameObject resourcesParent;
         
         [Inject]
-        private void Construct(Drone.Factory droneFactory)
+        private void Construct(Drone.Factory droneFactory, UIInputController uiInputController)
         {
             _droneFactory = droneFactory;
+            _uiInputController = uiInputController;
+        }
+
+        private void Awake()
+        {
+            maxDronesCount = _uiInputController.maxDroneCount;
         }
 
         private void Start()
@@ -36,9 +44,9 @@ namespace Game.Drones.Scripts
 
         private void CheckDroneCountRequest()
         {
-            if (droneCountRequest > _currentDroneCount)
+            if (_uiInputController.DroneCount > _currentDroneCount)
                 SpawnDrone();
-            if (droneCountRequest < _currentDroneCount)
+            if (_uiInputController.DroneCount < _currentDroneCount)
             {
                 DespawnDrone();
             }

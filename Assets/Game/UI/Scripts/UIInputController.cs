@@ -9,13 +9,18 @@ namespace Game.UI.Scripts
 {
     public class UIInputController : MonoBehaviour
     {
-        private ResourceSpawner _resourceSpawner;
-        [SerializeField] private TMP_InputField resourceSpawnFrequencyInputField;
+        [SerializeField] private Slider dronesCountSlider;
+        public int maxDroneCount = 5;
+        public int DroneCount { get; private set; }
 
         [Space]
         [SerializeField] private Slider droneSpeedSlider;
         [SerializeField] private float maxDroneSpeed = 10f;
         public float DroneSpeed { get; private set; }
+        
+        private ResourceSpawner _resourceSpawner;
+        [Space]
+        [SerializeField] private TMP_InputField resourceSpawnFrequencyInputField;
 
         [Inject]
         private void Construct(ResourceSpawner resourceSpawner)
@@ -34,6 +39,11 @@ namespace Game.UI.Scripts
         public void OnChangeDroneSpeed()
         {
             DroneSpeed = droneSpeedSlider.value * maxDroneSpeed;
+        }
+
+        public void OnChangeDroneCount()
+        {
+            DroneCount = Convert.ToInt32(dronesCountSlider.value * maxDroneCount);
         }
     }
 }

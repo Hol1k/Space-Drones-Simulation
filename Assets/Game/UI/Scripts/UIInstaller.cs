@@ -13,6 +13,7 @@ namespace Game.UI.Scripts
             Container.BindInterfacesAndSelfTo<ResourceSpawner>().FromComponentInHierarchy().AsSingle();
             
             Container.BindInterfacesAndSelfTo<Drone>().FromComponentsInHierarchy().AsTransient();
+            Container.BindInterfacesAndSelfTo<DroneSpawner>().FromComponentsInHierarchy().AsTransient();
         }
     }
 }
