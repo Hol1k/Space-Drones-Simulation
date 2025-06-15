@@ -16,7 +16,7 @@ namespace Game.SpaceResources.Scripts
         
         [Space]
         [Tooltip("resource per minute")]
-        [SerializeField] private float spawnFrequency = 40f;
+        public int spawnFrequency = 10;
         [SerializeField] [Min(0)] private int maxResourcesCount = 100;
         private float _currentSpawnCooldown;
         
