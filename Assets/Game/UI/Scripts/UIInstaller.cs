@@ -1,3 +1,4 @@
+using Game.Drones.Scripts;
 using Game.SpaceResources.Scripts;
 using Zenject;
 
@@ -10,6 +11,8 @@ namespace Game.UI.Scripts
             Container.BindInterfacesAndSelfTo<UIInputController>().FromComponentInHierarchy().AsSingle();
             
             Container.BindInterfacesAndSelfTo<ResourceSpawner>().FromComponentInHierarchy().AsSingle();
+            
+            Container.BindInterfacesAndSelfTo<Drone>().FromComponentsInHierarchy().AsTransient();
         }
     }
 }

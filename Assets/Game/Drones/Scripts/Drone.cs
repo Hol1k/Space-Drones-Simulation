@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Game.UI.Scripts;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Serialization;
 using Zenject;
 
 namespace Game.Drones.Scripts
@@ -13,6 +12,8 @@ namespace Game.Drones.Scripts
         public GameObject resourcesParent;
         
         private NavMeshAgent _navMeshAgent;
+        private UIInputController _uiInputController;
+        private float _currentSpeed;
         
         private DroneState _droneState;
         
@@ -43,10 +44,11 @@ namespace Game.Drones.Scripts
         [SerializeField] private float spawnOrDespawnDuration = 0.5f;
 
         [Inject]
-        private void Construct(List<Transform> occupiedResources, ScoreCounter scoreCounter)
+        private void Construct(List<Transform> occupiedResources, ScoreCounter scoreCounter, UIInputController uiInputController)
         {
             _occupiedResources = occupiedResources;
             _scoreCounter = scoreCounter;
+            _uiInputController = uiInputController;
         }
 
         private void Awake()
@@ -65,6 +67,7 @@ namespace Game.Drones.Scripts
 
         private void Update()
         {
+            ChangeDroneSpeed();
             ChoseBehaviour();
         }
 
@@ -263,6 +266,14 @@ namespace Game.Drones.Scripts
             yield return new WaitForSeconds(spawnOrDespawnDuration);
             _isDroneActive = false;
             gameObject.SetActive(false);
+        }
+
+        private void ChangeDroneSpeed()
+        {
+            if (!Mathf.Approximately(_uiInputController.DroneSpeed, _currentSpeed))
+            {
+                _navMeshAgent.speed = _currentSpeed = _uiInputController.DroneSpeed;
+            }
         }
     }
 }

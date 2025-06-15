@@ -2,6 +2,7 @@ using System;
 using Game.SpaceResources.Scripts;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Zenject;
 
 namespace Game.UI.Scripts
@@ -10,6 +11,11 @@ namespace Game.UI.Scripts
     {
         private ResourceSpawner _resourceSpawner;
         [SerializeField] private TMP_InputField resourceSpawnFrequencyInputField;
+
+        [Space]
+        [SerializeField] private Slider droneSpeedSlider;
+        [SerializeField] private float maxDroneSpeed = 10f;
+        public float DroneSpeed { get; private set; }
 
         [Inject]
         private void Construct(ResourceSpawner resourceSpawner)
@@ -23,6 +29,11 @@ namespace Game.UI.Scripts
                 _resourceSpawner.spawnFrequency = 0;
                 
             _resourceSpawner.spawnFrequency = Convert.ToInt32(resourceSpawnFrequencyInputField.text);
+        }
+
+        public void OnChangeDroneSpeed()
+        {
+            DroneSpeed = droneSpeedSlider.value * maxDroneSpeed;
         }
     }
 }
